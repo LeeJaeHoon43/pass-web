@@ -1,4 +1,4 @@
-package com.example.pass.controller;
+package com.example.pass.controller.pass;
 
 import com.example.pass.service.pass.Pass;
 import com.example.pass.service.pass.PassService;
