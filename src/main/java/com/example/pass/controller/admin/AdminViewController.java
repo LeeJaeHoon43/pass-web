@@ -2,12 +2,11 @@ package com.example.pass.controller.admin;
 
 import com.example.pass.service.packaze.PackageService;
 import com.example.pass.service.pass.BulkPassService;
+import com.example.pass.service.statistics.StatisticsService;
 import com.example.pass.service.user.UserGroupMappingService;
 import com.example.pass.util.LocalDateTimeUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDateTime;
@@ -20,12 +19,14 @@ public class AdminViewController {
     private final BulkPassService bulkPassService;
     private final PackageService packageService;
     private final UserGroupMappingService userGroupMappingService;
+    private final StatisticsService statisticsService;
 
     @GetMapping
-    public ModelAndView home(ModelAndView modelAndView, @RequestParam("to") String toString){
+    public ModelAndView home(ModelAndView modelAndView, @RequestParam("to") String toString) {
         LocalDateTime to = LocalDateTimeUtils.parseDate(toString);
 
-        modelAndView.addObject("chartData", "");
+        // chartData를 조회. (라벨, 출석 횟수, 취소 횟수)
+        modelAndView.addObject("chartData", statisticsService.makeChartData(to));
         modelAndView.setViewName("admin/index");
         return modelAndView;
     }
